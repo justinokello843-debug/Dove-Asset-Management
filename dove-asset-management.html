@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dove Asset Management — Global Real Estate &amp; Investment Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Public+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#161B26;
+  --ink-2:#1F2636;
+  --ink-3:#2A3345;
+  --stone:#ECE8DF;
+  --stone-2:#DFD9CA;
+  --paper:#F8F6F1;
+  --brass:#AD8A45;
+  --brass-light:#D4B77A;
+  --slate:#5B6472;
+  --slate-light:#8B93A0;
+  --white:#FFFFFF;
+  --line-dark:rgba(236,232,223,0.16);
+  --line-light:rgba(22,27,38,0.12);
+  --maxw:1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Public Sans',sans-serif;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.display{
+  font-family:'Fraunces',serif;
+  font-weight:500;
+  letter-spacing:-0.01em;
+  margin:0;
+}
+.mono{font-family:'IBM Plex Mono',monospace;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 40px;}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--brass);
+  display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--brass);display:inline-block;}
+@media(max-width:860px){.wrap{padding:0 22px;}}
+
+/* ===== Reveal on scroll ===== */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+
+/* ===== Top utility bar ===== */
+.topbar{
+  background:var(--ink);
+  color:var(--slate-light);
+  font-size:12.5px;
+}
+.topbar .wrap{
+  display:flex;justify-content:space-between;align-items:center;height:36px;
+}
+.topbar-links{display:flex;gap:22px;}
+.topbar-links a{opacity:.85;transition:opacity .2s;}
+.topbar-links a:hover{opacity:1;color:var(--brass-light);}
+.region{display:flex;align-items:center;gap:8px;opacity:.9;}
+.region .flag{width:14px;height:10px;background:linear-gradient(90deg,#a8123e 33%,#fff 33% 66%,#0055A4 66%);display:inline-block;border-radius:1px;}
+@media(max-width:860px){.topbar{display:none;}}
+
+/* ===== Header / nav ===== */
+header.site{
+  position:sticky;top:0;z-index:100;
+  background:rgba(22,27,38,0.97);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line-dark);
+  transition:box-shadow .3s;
+}
+header.site.scrolled{box-shadow:0 8px 24px rgba(0,0,0,.25);}
+.nav-row{
+  display:flex;align-items:center;justify-content:space-between;
+  height:78px;color:var(--paper);
+}
+.logo{display:flex;align-items:center;gap:12px;}
+.logo svg{flex-shrink:0;}
+.logo-text{display:flex;flex-direction:column;line-height:1;}
+.logo-text .name{font-family:'Fraunces',serif;font-size:19px;font-weight:600;letter-spacing:0.01em;}
+.logo-text .tag{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.18em;color:var(--brass-light);margin-top:4px;text-transform:uppercase;}
+
+nav.main-menu{display:flex;gap:2px;}
+nav.main-menu>.item{position:relative;}
+nav.main-menu>.item>a{
+  display:block;padding:12px 18px;font-size:14.5px;font-weight:500;
+  color:var(--stone);border-radius:3px;transition:color .2s,background .2s;
+}
+nav.main-menu>.item>a:hover,nav.main-menu>.item.open>a{color:var(--brass-light);background:rgba(173,138,69,0.08);}
+
+.mega{
+  position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  min-width:640px;background:var(--paper);color:var(--ink);
+  border-radius:6px;box-shadow:0 24px 48px rgba(0,0,0,.28);
+  padding:28px 30px;display:none;
+  border-top:2px solid var(--brass);
+}
+nav.main-menu>.item:hover .mega,nav.main-menu>.item.open .mega{display:grid;}
+.mega{grid-template-columns:1.1fr 1fr;gap:32px;}
+.mega h5{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);margin:0 0 12px;}
+.mega ul{list-style:none;margin:0;padding:0;}
+.mega li a{display:block;padding:7px 0;font-size:14px;color:var(--ink);border-bottom:1px solid var(--line-light);}
+.mega li:last-child a{border-bottom:none;}
+.mega li a:hover{color:var(--brass);padding-left:4px;}
+.mega .promo{background:var(--ink);color:var(--stone);border-radius:5px;padding:18px;}
+.mega .promo .eyebrow{color:var(--brass-light);}
+.mega .promo p{font-size:13px;line-height:1.5;color:var(--slate-light);margin:8px 0 0;}
+
+.nav-actions{display:flex;align-items:center;gap:14px;}
+.icon-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line-dark);display:flex;align-items:center;justify-content:center;color:var(--stone);cursor:pointer;transition:border-color .2s,color .2s;background:none;}
+.icon-btn:hover{border-color:var(--brass);color:var(--brass-light);}
+.btn-contact{
+  background:var(--brass);color:var(--ink);font-weight:600;font-size:13.5px;
+  padding:11px 22px;border-radius:3px;letter-spacing:.02em;border:none;cursor:pointer;
+  transition:background .2s;
+}
+.btn-contact:hover{background:var(--brass-light);}
+.burger{display:none;background:none;border:none;color:var(--stone);cursor:pointer;}
+@media(max-width:1080px){
+  nav.main-menu{display:none;}
+  .burger{display:block;}
+}
+
+/* ===== Hero ===== */
+.hero{
+  position:relative;background:var(--ink);color:var(--paper);overflow:hidden;
+  padding:120px 0 0;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:end;
+  position:relative;z-index:2;padding-bottom:80px;
+}
+.hero h1{font-size:clamp(40px,5.2vw,70px);line-height:1.02;font-weight:500;}
+.hero h1 em{font-style:italic;color:var(--brass-light);font-weight:400;}
+.hero p.lede{font-size:17px;line-height:1.6;color:var(--slate-light);max-width:480px;margin:26px 0 34px;}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-primary{background:var(--brass);color:var(--ink);padding:14px 26px;font-weight:600;font-size:14px;border-radius:3px;display:inline-block;transition:background .2s,transform .2s;}
+.btn-primary:hover{background:var(--brass-light);transform:translateY(-1px);}
+.btn-ghost{border:1px solid var(--line-dark);color:var(--stone);padding:14px 26px;font-weight:500;font-size:14px;border-radius:3px;display:inline-block;transition:border-color .2s;}
+.btn-ghost:hover{border-color:var(--brass);}
+
+.hero-panel{
+  border:1px solid var(--line-dark);border-radius:8px;padding:26px;background:rgba(255,255,255,.02);
+}
+.hero-panel .eyebrow{margin-bottom:16px;}
+.hero-stat-row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line-dark);}
+.hero-stat-row:last-child{border-bottom:none;}
+.hero-stat-row .num{font-family:'Fraunces',serif;font-size:26px;color:var(--paper);}
+.hero-stat-row .lbl{font-size:12.5px;color:var(--slate-light);max-width:150px;text-align:right;line-height:1.4;}
+
+/* skyline signature */
+.skyline{position:absolute;bottom:0;left:0;width:100%;height:180px;z-index:1;opacity:.5;}
+
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;}}
+
+/* ===== Ticker signature ===== */
+.ticker-wrap{
+  background:var(--brass);color:var(--ink);overflow:hidden;position:relative;border-top:1px solid rgba(0,0,0,.1);
+}
+.ticker{display:flex;white-space:nowrap;animation:scroll-ticker 42s linear infinite;padding:11px 0;}
+@keyframes scroll-ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.ticker span{font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:500;padding:0 26px;border-right:1px solid rgba(22,27,38,.25);letter-spacing:.02em;}
+@media (prefers-reduced-motion:reduce){.ticker{animation:none;overflow-x:auto;}}
+
+/* ===== Section shells ===== */
+section{padding:100px 0;}
+section.dark{background:var(--ink);color:var(--stone);}
+section.stone{background:var(--stone);}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:56px;flex-wrap:wrap;}
+.section-head h2{font-size:clamp(28px,3.4vw,44px);max-width:640px;}
+.section-head p{max-width:380px;font-size:15px;line-height:1.6;color:var(--slate);}
+section.dark .section-head p{color:var(--slate-light);}
+
+/* ===== Properties ===== */
+.prop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.prop-card{background:var(--paper);border:1px solid var(--line-light);border-radius:6px;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+.prop-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(22,27,38,.12);}
+.prop-thumb{height:150px;position:relative;overflow:hidden;}
+.prop-card:nth-child(1) .prop-thumb{background:linear-gradient(135deg,#2A3345,#5B6472);}
+.prop-card:nth-child(2) .prop-thumb{background:linear-gradient(135deg,#AD8A45,#D4B77A);}
+.prop-card:nth-child(3) .prop-thumb{background:linear-gradient(135deg,#161B26,#2A3345);}
+.prop-body{padding:22px;}
+.prop-tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);}
+.prop-body h4{font-size:19px;margin:10px 0 6px;}
+.prop-body p{font-size:13.5px;color:var(--slate);margin:0 0 14px;line-height:1.5;}
+.prop-meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--slate);border-top:1px solid var(--line-light);padding-top:12px;}
+@media(max-width:900px){.prop-grid{grid-template-columns:1fr;}}
+
+/* ===== Services ===== */
+.service-list{border-top:1px solid var(--line-dark);}
+.service-row{
+  display:grid;grid-template-columns:70px 1fr 1.4fr 120px;gap:28px;align-items:center;
+  padding:30px 0;border-bottom:1px solid var(--line-dark);transition:background .25s;
+}
+.service-row:hover{background:rgba(173,138,69,.05);}
+.service-row .idx{font-family:'IBM Plex Mono',monospace;color:var(--brass);font-size:14px;}
+.service-row h3{font-size:22px;color:var(--paper);}
+.service-row p{font-size:14px;color:var(--slate-light);line-height:1.6;margin:0;}
+.service-row .arrow{justify-self:end;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-dark);display:flex;align-items:center;justify-content:center;transition:background .25s,border-color .25s;}
+.service-row:hover .arrow{background:var(--brass);border-color:var(--brass);}
+@media(max-width:800px){.service-row{grid-template-columns:1fr;gap:8px;}.service-row .arrow{display:none;}}
+
+/* ===== Technology ===== */
+.tech-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+.tech-card{border:1px solid var(--line-light);border-radius:8px;padding:36px;background:var(--paper);position:relative;}
+.tech-card h3{font-size:26px;margin:14px 0 12px;}
+.tech-card p{font-size:14.5px;line-height:1.65;color:var(--slate);margin:0 0 20px;}
+.tech-mark{width:46px;height:46px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;}
+.tech-list{list-style:none;padding:0;margin:0;font-size:13.5px;color:var(--ink);}
+.tech-list li{padding:8px 0;border-top:1px solid var(--line-light);display:flex;gap:10px;}
+.tech-list li::before{content:"—";color:var(--brass);}
+@media(max-width:860px){.tech-grid{grid-template-columns:1fr;}}
+
+/* ===== People ===== */
+.people-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.people-stat{text-align:center;padding:34px 18px;border:1px solid var(--line-light);border-radius:8px;background:var(--paper);}
+.people-stat .n{font-family:'Fraunces',serif;font-size:38px;color:var(--brass);}
+.people-stat .l{font-size:12.5px;color:var(--slate);margin-top:8px;line-height:1.4;}
+.people-quote{margin-top:56px;border-left:3px solid var(--brass);padding-left:28px;max-width:760px;}
+.people-quote p{font-family:'Fraunces',serif;font-style:italic;font-size:22px;line-height:1.5;color:var(--ink);}
+.people-quote span{display:block;margin-top:14px;font-size:13px;color:var(--slate);font-family:'Public Sans',sans-serif;font-style:normal;}
+@media(max-width:860px){.people-grid{grid-template-columns:repeat(2,1fr);}}
+
+/* ===== Insights ===== */
+.insight-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:24px;}
+.insight-card{background:var(--ink-2);border-radius:8px;padding:30px;display:flex;flex-direction:column;justify-content:space-between;min-height:260px;border:1px solid var(--line-dark);transition:border-color .3s;}
+.insight-card:hover{border-color:var(--brass);}
+.insight-card.feature{background:linear-gradient(155deg,var(--ink-3),var(--ink));grid-row:span 1;}
+.insight-card h4{font-size:21px;color:var(--paper);line-height:1.3;margin:14px 0;}
+.insight-card .type{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--brass-light);letter-spacing:.1em;text-transform:uppercase;}
+.insight-card .rd{font-size:12.5px;color:var(--slate-light);}
+@media(max-width:900px){.insight-grid{grid-template-columns:1fr;}}
+
+/* ===== Industries ===== */
+.ind-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-light);border:1px solid var(--line-light);}
+.ind-card{background:var(--paper);padding:32px 26px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;transition:background .25s;}
+.ind-card:hover{background:var(--stone-2);}
+.ind-card h4{font-size:17px;}
+.ind-card .n{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--brass);}
+@media(max-width:860px){.ind-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:520px){.ind-grid{grid-template-columns:1fr;}}
+
+/* ===== About ===== */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:64px;}
+.pillar{padding:32px;border-radius:8px;background:var(--paper);border:1px solid var(--line-light);}
+.pillar .pn{font-family:'IBM Plex Mono',monospace;color:var(--brass);font-size:12px;}
+.pillar h3{font-size:23px;margin:12px 0 10px;}
+.pillar p{font-size:14px;color:var(--slate);line-height:1.6;margin:0;}
+
+.info-table{width:100%;border-collapse:collapse;font-size:14.5px;}
+.info-table tr{border-bottom:1px solid var(--line-light);}
+.info-table td{padding:14px 0;}
+.info-table td:first-child{color:var(--slate);width:38%;}
+.info-table td:last-child{font-weight:500;text-align:right;}
+
+.about-cols{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:70px;}
+@media(max-width:900px){.about-cols{grid-template-columns:1fr;}}
+
+.svc-table{width:100%;border-collapse:collapse;margin-top:70px;}
+.svc-table th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--brass);padding:0 0 14px;border-bottom:2px solid var(--ink);}
+.svc-table td{padding:20px 0;border-bottom:1px solid var(--line-light);vertical-align:top;font-size:14px;}
+.svc-table td:first-child{font-family:'Fraunces',serif;font-size:17px;width:34%;}
+.svc-table td:last-child{color:var(--slate);line-height:1.55;}
+
+.gov-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:24px;}
+.gov-item{border:1px solid var(--line-light);border-radius:6px;padding:18px;font-size:13.5px;}
+.gov-item a{color:var(--brass);}
+@media(max-width:860px){.gov-grid{grid-template-columns:1fr 1fr;}}
+
+.awards-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:22px;}
+.award-chip{border:1px solid var(--line-light);border-radius:30px;padding:10px 20px;font-size:13px;color:var(--ink);display:flex;align-items:center;gap:8px;}
+.award-chip::before{content:"◆";color:var(--brass);font-size:10px;}
+
+/* ===== CTA band ===== */
+.cta-band{background:var(--ink);color:var(--paper);padding:90px 0;text-align:center;}
+.cta-band h2{font-size:clamp(28px,4vw,46px);max-width:700px;margin:0 auto 30px;}
+
+/* ===== Footer ===== */
+footer{background:var(--ink);color:var(--slate-light);border-top:1px solid var(--line-dark);padding-top:70px;}
+.footer-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:50px;border-bottom:1px solid var(--line-dark);flex-wrap:wrap;gap:24px;}
+.footer-top .newsletter{display:flex;gap:0;border:1px solid var(--line-dark);border-radius:4px;overflow:hidden;}
+.footer-top .newsletter input{background:none;border:none;padding:12px 16px;color:var(--paper);font-size:13.5px;width:220px;}
+.footer-top .newsletter input:focus{outline:none;}
+.footer-top .newsletter button{background:var(--brass);border:none;color:var(--ink);font-weight:600;font-size:13px;padding:0 20px;cursor:pointer;}
+.social{display:flex;gap:14px;}
+.social a{width:34px;height:34px;border:1px solid var(--line-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;transition:border-color .2s,color .2s;}
+.social a:hover{border-color:var(--brass);color:var(--brass-light);}
+
+.footer-clusters{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;padding:56px 0;}
+.footer-clusters h5{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass-light);margin-bottom:18px;}
+.footer-clusters ul{list-style:none;margin:0;padding:0;}
+.footer-clusters li{padding:7px 0;font-size:13.5px;}
+.footer-clusters li a:hover{color:var(--brass-light);}
+@media(max-width:900px){.footer-clusters{grid-template-columns:1fr 1fr;}}
+@media(max-width:520px){.footer-clusters{grid-template-columns:1fr;}}
+
+.legal-strip{border-top:1px solid var(--line-dark);padding:26px 0;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--slate);flex-wrap:wrap;gap:12px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="region"><span class="flag"></span> United States <span style="opacity:.5">▾</span></div>
+    <div class="topbar-links">
+      <a href="#about">About Dove</a>
+      <a href="#insights">Client stories</a>
+      <a href="#people">Careers</a>
+      <a href="#insights">News</a>
+      <a href="#about">Investor relations</a>
+    </div>
+  </div>
+</div>
+
+<header class="site" id="siteHeader">
+  <div class="wrap nav-row">
+    <a href="#home" class="logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="18" r="17.5" stroke="#AD8A45"/>
+        <path d="M9 20c3-8 9-11 13-11-1 4-5 8-9 9 3 0 6-1 8-3-1 5-6 9-12 9-1 0-2-2 0-4z" fill="#AD8A45"/>
+      </svg>
+      <span class="logo-text">
+        <span class="name">DOVE</span>
+        <span class="tag">Asset Management</span>
+      </span>
+    </a>
+
+    <nav class="main-menu">
+      <div class="item">
+        <a href="#properties">Properties</a>
+        <div class="mega">
+          <div>
+            <h5>Find Space</h5>
+            <ul>
+              <li><a href="#properties">Search listings for lease</a></li>
+              <li><a href="#properties">Search listings for sale</a></li>
+              <li><a href="#properties">Office space</a></li>
+              <li><a href="#properties">Industrial &amp; logistics</a></li>
+              <li><a href="#properties">Retail space</a></li>
+            </ul>
+          </div>
+          <div class="promo">
+            <div class="eyebrow">Dove Marketplace</div>
+            <p>Browse live availability across 140+ markets, updated directly from our leasing teams.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <a href="#services">Services</a>
+        <div class="mega">
+          <div>
+            <h5>Service Lines</h5>
+            <ul>
+              <li><a href="#services">Portfolio &amp; Facilities Management</a></li>
+              <li><a href="#services">Leasing Advisory</a></li>
+              <li><a href="#services">Capital Markets Advisory</a></li>
+              <li><a href="#services">Software &amp; Technology Solutions</a></li>
+              <li><a href="#services">Investment Management</a></li>
+            </ul>
+          </div>
+          <div class="promo">
+            <div class="eyebrow">Halcyon IM</div>
+            <p>Our institutional investment arm manages real assets on behalf of pension funds, sovereign wealth and endowments.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <a href="#technology">Technology</a>
+        <div class="mega">
+          <div>
+            <h5>Proptech</h5>
+            <ul>
+              <li><a href="#technology">Dove Compass — AI platform</a></li>
+              <li><a href="#technology">Dove Ventures</a></li>
+              <li><a href="#technology">Building intelligence tools</a></li>
+              <li><a href="#technology">Portfolio analytics</a></li>
+            </ul>
+          </div>
+          <div class="promo">
+            <div class="eyebrow">Dove Compass</div>
+            <p>A generative-AI platform trained on our transaction history, built to answer real estate questions in seconds.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <a href="#people">People</a>
+        <div class="mega">
+          <div>
+            <h5>Our People</h5>
+            <ul>
+              <li><a href="#people">Life at Dove</a></li>
+              <li><a href="#people">Career stories</a></li>
+              <li><a href="#people">Talent network</a></li>
+              <li><a href="#people">Leadership</a></li>
+            </ul>
+          </div>
+          <div class="promo">
+            <div class="eyebrow">Talent Network</div>
+            <p>Join a network of 42,000+ professionals working across 51 countries.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <a href="#insights">Insights</a>
+        <div class="mega">
+          <div>
+            <h5>Research</h5>
+            <ul>
+              <li><a href="#insights">Global Real Estate Perspective</a></li>
+              <li><a href="#insights">Market perspectives</a></li>
+              <li><a href="#insights">Webinars</a></li>
+              <li><a href="#insights">Data library</a></li>
+            </ul>
+          </div>
+          <div class="promo">
+            <div class="eyebrow">Flagship Report</div>
+            <p>Our quarterly outlook on capital flows, occupier demand and pricing across every major asset class.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <a href="#industries">Industries</a>
+        <div class="mega">
+          <div>
+            <h5>Sector Expertise</h5>
+            <ul>
+              <li><a href="#industries">Data centers</a></li>
+              <li><a href="#industries">Hospitality</a></li>
+              <li><a href="#industries">Retail</a></li>
+              <li><a href="#industries">Industrial</a></li>
+              <li><a href="#industries">Life sciences</a></li>
+            </ul>
+          </div>
+          <div class="promo">
+            <div class="eyebrow">Sector Desk</div>
+            <p>Specialists who live inside one industry, not generalists spread across every asset type.</p>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-btn" aria-label="Search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="btn-contact">Contact us</button>
+      <button class="burger" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow" style="margin-bottom:22px;">Global Real Estate &amp; Investment Management</div>
+        <h1>We manage the buildings<br>where <em>capital</em> and<br><em>ambition</em> meet.</h1>
+        <p class="lede">Dove Asset Management advises, leases, finances and operates real estate on behalf of the world's investors and occupiers — across 51 countries, from a single point of view.</p>
+        <div class="hero-ctas">
+          <a href="#services" class="btn-primary">Explore our services</a>
+          <a href="#about" class="btn-ghost">About Dove</a>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="eyebrow">Dove at a glance</div>
+        <div class="hero-stat-row"><span class="num mono">140+</span><span class="lbl">Corporate offices worldwide</span></div>
+        <div class="hero-stat-row"><span class="num mono">51</span><span class="lbl">Countries of operation</span></div>
+        <div class="hero-stat-row"><span class="num mono">42,000+</span><span class="lbl">Employees globally</span></div>
+        <div class="hero-stat-row"><span class="num mono">$61B</span><span class="lbl">Assets under management, Halcyon IM</span></div>
+      </div>
+    </div>
+  </div>
+  <svg class="skyline" viewBox="0 0 1400 180" preserveAspectRatio="none">
+    <rect x="0" y="90" width="60" height="90" fill="#2A3345"/>
+    <rect x="70" y="60" width="45" height="120" fill="#1F2636"/>
+    <rect x="125" y="110" width="70" height="70" fill="#2A3345"/>
+    <rect x="205" y="40" width="38" height="140" fill="#1F2636"/>
+    <rect x="255" y="95" width="55" height="85" fill="#2A3345"/>
+    <rect x="320" y="70" width="42" height="110" fill="#1F2636"/>
+    <rect x="900" y="80" width="50" height="100" fill="#1F2636"/>
+    <rect x="960" y="50" width="40" height="130" fill="#2A3345"/>
+    <rect x="1010" y="100" width="65" height="80" fill="#1F2636"/>
+    <rect x="1085" y="65" width="38" height="115" fill="#2A3345"/>
+    <rect x="1135" y="95" width="55" height="85" fill="#1F2636"/>
+    <rect x="1200" y="35" width="42" height="145" fill="#2A3345"/>
+    <rect x="1255" y="85" width="60" height="95" fill="#1F2636"/>
+    <rect x="1330" y="55" width="45" height="125" fill="#2A3345"/>
+  </svg>
+</section>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>FOUNDED 1968 — BOSTON</span>
+    <span>HQ · ONE HARBOR PLACE, BOSTON MA</span>
+    <span>NYSE: DOVE</span>
+    <span>140+ OFFICES</span>
+    <span>51 COUNTRIES</span>
+    <span>$61.2B AUM · HALCYON IM</span>
+    <span>42,000+ EMPLOYEES</span>
+    <span>FOUNDED 1968 — BOSTON</span>
+    <span>HQ · ONE HARBOR PLACE, BOSTON MA</span>
+    <span>NYSE: DOVE</span>
+    <span>140+ OFFICES</span>
+    <span>51 COUNTRIES</span>
+    <span>$61.2B AUM · HALCYON IM</span>
+    <span>42,000+ EMPLOYEES</span>
+  </div>
+</div>
+
+<!-- ============ PROPERTIES ============ -->
+<section class="stone" id="properties">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Find your next space, or your next buyer.</h2>
+      <p>Search live availability across every asset class, sourced directly from our leasing and capital markets teams.</p>
+    </div>
+    <div class="prop-grid">
+      <div class="prop-card reveal">
+        <div class="prop-thumb"></div>
+        <div class="prop-body">
+          <div class="prop-tag">For lease · Office</div>
+          <h4>Harbor Exchange Tower</h4>
+          <p>210,000 sq ft of Class A office space in Boston's financial district, floors 12–28 available.</p>
+          <div class="prop-meta"><span>Boston, MA</span><span>Available now</span></div>
+        </div>
+      </div>
+      <div class="prop-card reveal">
+        <div class="prop-thumb"></div>
+        <div class="prop-body">
+          <div class="prop-tag">For sale · Industrial</div>
+          <h4>Meridian Logistics Park</h4>
+          <p>1.4M sq ft distribution campus, 42-ft clear height, positioned along the I-95 corridor.</p>
+          <div class="prop-meta"><span>Newark, NJ</span><span>Offers due Q4</span></div>
+        </div>
+      </div>
+      <div class="prop-card reveal">
+        <div class="prop-thumb"></div>
+        <div class="prop-body">
+          <div class="prop-tag">For lease · Retail</div>
+          <h4>Cascade Row</h4>
+          <p>Boutique high-street retail, 6 units remaining along a landmark pedestrian corridor.</p>
+          <div class="prop-meta"><span>Austin, TX</span><span>Available now</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="dark" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Five service lines. One point of accountability.</h2>
+      <p style="color:var(--slate-light);">We organize around what our clients actually need done, not around our own org chart.</p>
+    </div>
+    <div class="service-list">
+      <div class="service-row reveal">
+        <span class="idx">01</span>
+        <h3>Portfolio &amp; Facilities Management</h3>
+        <p>Day-to-day operations, capital projects and facilities across occupier and investor portfolios of any size.</p>
+        <span class="arrow">→</span>
+      </div>
+      <div class="service-row reveal">
+        <span class="idx">02</span>
+        <h3>Leasing Advisory</h3>
+        <p>Tenant representation and agency leasing, matching occupiers and landlords across every major market.</p>
+        <span class="arrow">→</span>
+      </div>
+      <div class="service-row reveal">
+        <span class="idx">03</span>
+        <h3>Capital Markets Advisory</h3>
+        <p>Investment sales, debt and equity placement, and structured finance for institutional owners.</p>
+        <span class="arrow">→</span>
+      </div>
+      <div class="service-row reveal">
+        <span class="idx">04</span>
+        <h3>Software &amp; Technology Solutions</h3>
+        <p>Proptech products and the Dove Compass platform, built to give clients a live view of their real estate.</p>
+        <span class="arrow">→</span>
+      </div>
+      <div class="service-row reveal">
+        <span class="idx">05</span>
+        <h3>Investment Management</h3>
+        <p>Delivered through Halcyon Investment Management, our semi-autonomous fund management subsidiary.</p>
+        <span class="arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TECHNOLOGY ============ -->
+<section id="technology">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Built for real estate. Trained on ours.</h2>
+      <p>Two ventures sit at the center of how Dove uses technology — one is a product, the other is how we find the next one.</p>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card reveal">
+        <div class="tech-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#AD8A45" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        <h3>Dove Compass</h3>
+        <p>Our proprietary generative-AI platform for commercial real estate, trained on decades of transaction and market data to answer client questions in plain language.</p>
+        <ul class="tech-list">
+          <li>Lease abstraction &amp; portfolio Q&amp;A</li>
+          <li>Market comparables in seconds</li>
+          <li>Deployed across every service line</li>
+        </ul>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#AD8A45" stroke-width="2"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <h3>Dove Ventures</h3>
+        <p>Our corporate venture arm invests in early-stage proptech companies, giving founders access to Dove's client base and real-world buildings to pilot in.</p>
+        <ul class="tech-list">
+          <li>Seed to Series B proptech investments</li>
+          <li>Pilot access across our managed portfolio</li>
+          <li>Housed within Dove Technologies</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PEOPLE ============ -->
+<section class="stone" id="people">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>The people who make the portfolio work.</h2>
+      <p>Dove is a professional-services firm before it is anything else — our people are the product.</p>
+    </div>
+    <div class="people-grid">
+      <div class="people-stat reveal"><div class="n mono">42K+</div><div class="l">Employees across every service line</div></div>
+      <div class="people-stat reveal"><div class="n mono">51</div><div class="l">Countries with a Dove office</div></div>
+      <div class="people-stat reveal"><div class="n mono">140+</div><div class="l">Corporate offices worldwide</div></div>
+      <div class="people-stat reveal"><div class="n mono">38%</div><div class="l">Of leadership roles held by women</div></div>
+    </div>
+    <div class="people-quote reveal">
+      <p>"The best real estate advice comes from people who've stayed in the market long enough to see a full cycle. That's what we hire for."</p>
+      <span>— Julian Reyes Okonkwo, President &amp; Chief Executive Officer</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSIGHTS ============ -->
+<section class="dark" id="insights">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Research built for decisions, not headlines.</h2>
+      <p style="color:var(--slate-light);">Our flagship outlook and market-by-market perspectives, updated every quarter.</p>
+    </div>
+    <div class="insight-grid">
+      <div class="insight-card feature reveal">
+        <div class="type">Flagship Report</div>
+        <h4>Global Real Estate Perspective — Q3 2026</h4>
+        <div class="rd">Our house view on capital flows, occupier demand and cap rates across every major asset class.</div>
+      </div>
+      <div class="insight-card reveal">
+        <div class="type">Market Perspective</div>
+        <h4>Office demand stabilizes in gateway cities</h4>
+        <div class="rd">8 min read</div>
+      </div>
+      <div class="insight-card reveal">
+        <div class="type">Webinar</div>
+        <h4>Data center power constraints, explained</h4>
+        <div class="rd">42 min watch</div>
+      </div>
+      <div class="insight-card reveal">
+        <div class="type">Research Note</div>
+        <h4>Industrial rent growth by corridor</h4>
+        <div class="rd">6 min read</div>
+      </div>
+      <div class="insight-card reveal">
+        <div class="type">Market Perspective</div>
+        <h4>Life sciences leasing: a cautious reset</h4>
+        <div class="rd">7 min read</div>
+      </div>
+      <div class="insight-card reveal">
+        <div class="type">Data Library</div>
+        <h4>Cap rate benchmarks by sector, Q3</h4>
+        <div class="rd">Interactive tool</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INDUSTRIES ============ -->
+<section id="industries">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Sector specialists, not generalists.</h2>
+      <p>Each industry team lives inside one asset class year-round, so the advice reflects what's actually happening on the ground.</p>
+    </div>
+    <div class="ind-grid">
+      <div class="ind-card reveal"><span class="n">01</span><h4>Data Centers</h4></div>
+      <div class="ind-card reveal"><span class="n">02</span><h4>Hospitality</h4></div>
+      <div class="ind-card reveal"><span class="n">03</span><h4>Retail</h4></div>
+      <div class="ind-card reveal"><span class="n">04</span><h4>Industrial &amp; Logistics</h4></div>
+      <div class="ind-card reveal"><span class="n">05</span><h4>Life Sciences</h4></div>
+      <div class="ind-card reveal"><span class="n">06</span><h4>Healthcare</h4></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="stone" id="about">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="margin-bottom:18px;">About Dove</div>
+    <h2 class="reveal" style="font-size:clamp(28px,3.6vw,44px);max-width:760px;margin-bottom:56px;">A firm built to hold the whole real estate relationship — advise, transact, manage, invest.</h2>
+
+    <div class="pillars">
+      <div class="pillar reveal">
+        <div class="pn mono">Pillar 01</div>
+        <h3>Vantage</h3>
+        <p>Because we sit across leasing, capital markets and investment management at once, we see deals before they're public.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pn mono">Pillar 02</div>
+        <h3>Integrity</h3>
+        <p>Fiduciary duty comes before fee. Every recommendation is one we'd make if we were sitting on the client's side of the table.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pn mono">Pillar 03</div>
+        <h3>Delivery</h3>
+        <p>Strategy is worth nothing without execution — our teams stay on a deal from first call to closing to first rent check.</p>
+      </div>
+    </div>
+
+    <div class="about-cols">
+      <div class="reveal">
+        <div class="eyebrow" style="margin-bottom:20px;">Company Information</div>
+        <table class="info-table">
+          <tr><td>Registered legal name</td><td>Dove Asset Management, Incorporated</td></tr>
+          <tr><td>Founded</td><td>1968, Boston, Massachusetts</td></tr>
+          <tr><td>Predecessor entity</td><td>Whitfield &amp; Dove Property Trust (merged 1994)</td></tr>
+          <tr><td>Headquarters</td><td>One Harbor Place, Boston, MA</td></tr>
+          <tr><td>Chairman of the Board</td><td>Margaret Ashworth‑Voss</td></tr>
+          <tr><td>President &amp; CEO</td><td>Julian Reyes Okonkwo</td></tr>
+          <tr><td>Employees</td><td>42,000+</td></tr>
+          <tr><td>Market coverage</td><td>51 countries, 140+ offices</td></tr>
+        </table>
+      </div>
+      <div class="reveal">
+        <div class="eyebrow" style="margin-bottom:20px;">Trading &amp; Financials</div>
+        <table class="info-table">
+          <tr><td>Exchange</td><td>New York Stock Exchange</td></tr>
+          <tr><td>Ticker</td><td>DOVE</td></tr>
+          <tr><td>IPO date</td><td>September 14, 1998</td></tr>
+          <tr><td>Fiscal year end</td><td>December 31</td></tr>
+          <tr><td>Latest quarterly earnings</td><td>View investor relations →</td></tr>
+          <tr><td>Auditor</td><td>Independent registered firm, on file with SEC</td></tr>
+          <tr><td>Investor contact</td><td>ir@doveassetmanagement.example</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:70px;">
+      <div class="eyebrow" style="margin-bottom:18px;">Leadership</div>
+      <table class="info-table" style="max-width:760px;">
+        <tr><td>Chairman of the Board</td><td>Margaret Ashworth‑Voss</td></tr>
+        <tr><td>President &amp; Chief Executive Officer</td><td>Julian Reyes Okonkwo</td></tr>
+        <tr><td>Chief Financial Officer</td><td>Priya Chandrasekaran</td></tr>
+        <tr><td>General Counsel &amp; Corporate Secretary</td><td>Marcus Whitfield</td></tr>
+        <tr><td>Chief Human Resources Officer</td><td>Elena Marsh</td></tr>
+        <tr><td>Chief Technology Officer</td><td>David Okafor</td></tr>
+      </table>
+    </div>
+
+    <table class="svc-table reveal">
+      <tr><th>Service Line</th><th>What it covers</th></tr>
+      <tr><td>Portfolio &amp; Facilities Management</td><td>Day-to-day operations, capital projects and portfolio-wide facilities management for occupiers and owners.</td></tr>
+      <tr><td>Leasing Advisory</td><td>Tenant representation and agency leasing across office, industrial and retail.</td></tr>
+      <tr><td>Capital Markets Advisory</td><td>Investment sales, debt and equity advisory, and mortgage origination for institutional owners.</td></tr>
+      <tr><td>Software &amp; Technology Solutions</td><td>Proptech products including the Dove Compass AI platform.</td></tr>
+      <tr><td>Investment Management</td><td>Delivered through Halcyon Investment Management, our fund management subsidiary — $61.2B AUM.</td></tr>
+    </table>
+
+    <div class="reveal" style="margin-top:70px;">
+      <div class="eyebrow" style="margin-bottom:18px;">Corporate Governance</div>
+      <div class="gov-grid">
+        <div class="gov-item"><a href="#">Code of Ethics →</a></div>
+        <div class="gov-item"><a href="#">Vendor Code of Conduct →</a></div>
+        <div class="gov-item"><a href="#">Modern Slavery Statement →</a></div>
+        <div class="gov-item"><a href="#">Human Rights Policy →</a></div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:60px;">
+      <div class="eyebrow" style="margin-bottom:18px;">Awards &amp; Recognition</div>
+      <div class="awards-row">
+        <div class="award-chip">World's Most Ethical Companies</div>
+        <div class="award-chip">Fortune Most Admired, Real Estate</div>
+        <div class="award-chip">Fortune 500</div>
+        <div class="award-chip">Great Place to Work</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<div class="cta-band">
+  <div class="wrap">
+    <h2>Whatever you're trying to do with real estate, we've probably already done it once.</h2>
+    <a href="#" class="btn-primary">Talk to Dove</a>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="logo">
+        <svg width="30" height="30" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="18" r="17.5" stroke="#AD8A45"/>
+          <path d="M9 20c3-8 9-11 13-11-1 4-5 8-9 9 3 0 6-1 8-3-1 5-6 9-12 9-1 0-2-2 0-4z" fill="#AD8A45"/>
+        </svg>
+        <span class="logo-text"><span class="name" style="color:var(--paper);">DOVE</span></span>
+      </div>
+      <div class="newsletter">
+        <input type="email" placeholder="Subscribe for market insights">
+        <button>Subscribe</button>
+      </div>
+      <div class="social">
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="X">X</a>
+        <a href="#" aria-label="Instagram">◍</a>
+        <a href="#" aria-label="Facebook">f</a>
+      </div>
+    </div>
+
+    <div class="footer-clusters">
+      <div>
+        <h5>How Can We Help?</h5>
+        <ul>
+          <li><a href="#properties">Find and lease space</a></li>
+          <li><a href="#services">Portfolio management</a></li>
+          <li><a href="#services">Private investors</a></li>
+          <li><a href="#services">Hybrid workspace solutions</a></li>
+          <li><a href="#industries">Sustainable buildings</a></li>
+          <li><a href="#technology">AI for commercial real estate</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Careers</h5>
+        <ul>
+          <li><a href="#people">Working at Dove</a></li>
+          <li><a href="#">View job opportunities</a></li>
+          <li><a href="#people">Meet our people</a></li>
+          <li><a href="#people">Talent network</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Corporate Information</h5>
+        <ul>
+          <li><a href="#about">About Dove</a></li>
+          <li><a href="#insights">Newsroom</a></li>
+          <li><a href="#industries">Sustainability</a></li>
+          <li><a href="#about">Investor relations</a></li>
+          <li><a href="#">Locations</a></li>
+          <li><a href="#about">Ethics everywhere</a></li>
+          <li><a href="#technology">Dove Ventures</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Terms of use</a></li>
+          <li><a href="#">Cookie preferences</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">Site map</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="legal-strip">
+      <span>© 2026 Dove Asset Management, Incorporated. All rights reserved.</span>
+      <span>One Harbor Place, Boston, MA · NYSE: DOVE</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // header shadow on scroll
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  });
+
+  // reveal on scroll
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // mobile burger -> simple toggle of mega menus stacked (basic fallback)
+  const burger = document.querySelector('.burger');
+  const mainMenu = document.querySelector('.main-menu');
+  burger.addEventListener('click', ()=>{
+    const open = mainMenu.style.display === 'flex';
+    mainMenu.style.display = open ? 'none' : 'flex';
+    mainMenu.style.flexDirection = 'column';
+    mainMenu.style.position='absolute';
+    mainMenu.style.top='100%';
+    mainMenu.style.left='0';
+    mainMenu.style.right='0';
+    mainMenu.style.background='var(--ink)';
+    mainMenu.style.padding='10px 20px 20px';
+  });
+</script>
+
+</body>
+</html>
