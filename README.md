@@ -44,41 +44,41 @@ Contact shown on the site: **support@doveassetmanagement** · **+254 753 221960*
 
 ## Wiring up real payments (important)
 
-The **Payments** section (`#payments`) on the site is currently a **front-end UI only** — the "Pay securely," "Send M-Pesa prompt," and "Continue to PayPal" buttons show a placeholder alert. No money moves yet through those three methods. The **Bank Transfer** tab, however, already shows your real, live account details:
+The **Payments** section (`#payments`) now has a real, working integration with **Paystack** for the **Card** and **M-Pesa** tabs — Paystack's checkout popup handles both, since Paystack in Kenya supports Visa/Mastercard/Verve cards worldwide and M-Pesa STK Push from one account. The **Bank Transfer** tab shows your live account details, and the **PayPal** tab is still a placeholder (see below).
 
+**Bank details currently shown on the site:**
 - Account name: **DOVE ASSET MANAGEMENT**
 - Bank: **Cooperative Bank of Kenya**, Kangemi Branch
 - Account number: **01192763735500**
 - Bank code: **11000**
 - SWIFT/BIC: **KCOOKENA**
 
-Card details are intentionally left disabled on this page and never collected or stored here — that's deliberate, since handling raw card numbers on a plain webpage requires PCI‑DSS certification. Instead, plug in an established gateway that takes on that compliance for you.
+### Making Card & M-Pesa go live with Paystack
 
-**To make Card, M-Pesa, and PayPal actually deposit into the Cooperative Bank account above, here's what has to happen — none of it can be done by editing this code alone:**
+The checkout code is already in place (`js/script.js`, using Paystack's official Inline library loaded in `index.html`). It currently uses a placeholder public key, so nothing charges yet. To activate it:
 
-1. **Open a merchant account** with a gateway (see table below) under the Dove Asset Management business.
-2. In that gateway's dashboard, **add the Cooperative Bank account (01192763735500, Kangemi Branch)** as your settlement/payout account — this is what actually routes the money there.
-3. The gateway issues you **API keys** (a public key safe for this webpage, and a secret key that must stay on a private backend server, never in `index.html` or `script.js`).
-4. I build (or you build) a small backend endpoint that uses the secret key to create real charges/checkout sessions.
-5. The buttons in `js/script.js` get pointed at that backend instead of the current placeholder `alert()`.
-6. Test everything in the gateway's **sandbox/test mode** first, then switch to live keys.
+1. **Create a Paystack account** at [paystack.com](https://paystack.com) for Dove Asset Management, and complete their business verification (KYC).
+2. In your Paystack Dashboard, add the **Cooperative Bank account (01192763735500, Kangemi Branch)** as your settlement account — this is what routes collected payments there. Typically it takes about 3 working days after a customer pays for funds to reach your account.
+3. If you want to accept cards from **outside Kenya**, request **"Accept international payments"** under Dashboard → Preferences — this isn't automatic.
+4. Go to Dashboard → Settings → **API Keys & Webhooks** and copy your **Public Key** (starts with `pk_test_...` in test mode, `pk_live_...` once you switch to live).
+5. Open `js/script.js`, find this line near the top of the Payments section:
+   ```js
+   const PAYSTACK_PUBLIC_KEY = "pk_test_REPLACE_WITH_YOUR_PAYSTACK_PUBLIC_KEY";
+   ```
+   Replace it with your real key.
+6. Test a payment using [Paystack's test cards](https://paystack.com/docs/payments/test-payments/) while still in test mode.
+7. **Set up server-side verification before accepting real money.** The current code trusts Paystack's browser callback to show a confirmation message — that's fine for testing, but a determined person could fake that callback. Before going live, add a small backend endpoint that calls Paystack's `GET /transaction/verify/:reference` using your **secret key** (never expose the secret key in this front-end code), and only mark an order/invoice as paid once that server-side check succeeds. This also lets you receive Paystack's webhook events for extra reliability.
+8. Once verified end-to-end, switch `PAYSTACK_PUBLIC_KEY` to your `pk_live_...` key.
 
-**Recommended providers, matched to what you selected (cards + M‑Pesa + PayPal + bank transfer):**
+Card details are never collected or stored on this website — Paystack's popup collects them directly inside its own secure iframe, which is what keeps this site out of PCI-DSS scope. Paystack itself is PCI DSS Level 1 certified, the highest tier available.
 
-| Method | Provider | Why |
-|---|---|---|
-| Cards (international) | [Stripe](https://stripe.com) or [Flutterwave](https://flutterwave.com) | Hosted Checkout or Elements keep card data off your server entirely |
-| Cards + Mobile money (Africa-focused) | [Flutterwave](https://flutterwave.com) or [Paystack](https://paystack.com) | Both support Kenyan cards, M-Pesa, and multi-currency in one integration |
-| M-Pesa (direct) | [Safaricom Daraja API](https://developer.safaricom.co.ke) | Official STK Push API for "Lipa na M-Pesa" prompts straight to a phone |
-| PayPal | [PayPal Checkout SDK](https://developer.paypal.com/sdk/js/) | Drop-in redirect checkout, good for clients outside East Africa |
-| Bank transfer | No gateway needed | Just keep the displayed account details accurate; reconcile manually or via your bank's API |
+### PayPal (not yet connected)
 
-**General flow for any of these:**
-1. Create a merchant/business account with the provider and complete their KYC verification.
-2. Get API keys — keep the **secret** key on a server only, never in this front-end code.
-3. Build a small backend (e.g. a Node/Express or Python/Flask endpoint) that creates the charge/checkout session using the secret key, and returns a session URL or client token to the page.
-4. Replace each `.pay-submit` click handler in `js/script.js` with a call to your backend endpoint instead of the placeholder `alert()`.
-5. Test with the provider's sandbox/test mode before switching to live keys.
-6. Serve the site over **HTTPS** (GitHub Pages does this automatically) — never collect payment info over plain HTTP.
+The PayPal tab still shows a placeholder alert. To connect it, add the [PayPal Checkout SDK](https://developer.paypal.com/sdk/js/) and, like Paystack, verify completed orders server-side before treating them as paid — see PayPal's [Standard Checkout integration guide](https://developer.paypal.com/docs/checkout/standard/).
 
-If you'd like, I can build the actual backend integration for one of these providers next — that requires choosing a host for the backend (e.g. a small Node server, Vercel/Render function, etc.) since GitHub Pages only serves static files and can't run this logic on its own.
+### General security notes
+- Serve the site over **HTTPS** (GitHub Pages does this automatically) — never collect payment info over plain HTTP.
+- Never commit a secret key to this repository, in any file, at any point.
+- Keep the public key as the *only* payment credential that lives in this front-end code.
+
+If you'd like, I can build the backend verification endpoint next — that needs a small server (e.g. a Node/Express app on Render, Vercel, or similar) since GitHub Pages only serves static files and can't run this logic on its own.

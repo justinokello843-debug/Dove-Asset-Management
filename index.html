@@ -515,11 +515,10 @@
 </section>
 
 <!-- ============ PAYMENTS ============ -->
-<!-- DEVELOPER NOTE: The bank transfer details below are real (Cooperative Bank of
-     Kenya). The M-Pesa Paybill number is still a PLACEHOLDER — replace it once
-     you've registered with a mobile money gateway. See README.md → "Wiring up
-     real payments" for how to connect an actual checkout to Card / M-Pesa / PayPal
-     (Stripe / Flutterwave / Paystack / M-Pesa Daraja / PayPal). -->
+<!-- DEVELOPER NOTE: Bank transfer details below are real (Cooperative Bank of
+     Kenya). Card and M-Pesa are wired to Paystack's Inline checkout in
+     js/script.js — replace PAYSTACK_PUBLIC_KEY there with your real key.
+     PayPal is still a placeholder. See README.md → "Wiring up real payments". -->
 <section class="dark" id="payments">
   <div class="wrap">
     <div class="section-head reveal">
@@ -540,63 +539,60 @@
         <!-- CARD -->
         <div class="pay-panel active" data-panel="card">
           <div class="pay-grid">
+            <div class="pay-field full">
+              <label>Email address</label>
+              <input type="email" id="cardEmail" placeholder="you@email.com" required>
+            </div>
             <div class="pay-field">
               <label>Amount</label>
               <div class="pay-amount">
-                <select class="pay-currency">
-                  <option>USD</option>
-                  <option>KES</option>
-                  <option>EUR</option>
-                  <option>GBP</option>
+                <select class="pay-currency" id="cardCurrency">
+                  <option value="KES">KES</option>
+                  <option value="USD">USD</option>
                 </select>
-                <input type="text" inputmode="decimal" placeholder="0.00">
+                <input type="text" inputmode="decimal" id="cardAmount" placeholder="0.00">
               </div>
             </div>
             <div class="pay-field">
               <label>Invoice / reference number</label>
-              <input type="text" placeholder="e.g. DOVE-INV-0231">
+              <input type="text" id="cardRef" placeholder="e.g. DOVE-INV-0231">
             </div>
             <div class="pay-field full">
               <label>Cardholder name</label>
-              <input type="text" placeholder="Full name as it appears on card">
-            </div>
-            <div class="pay-field full">
-              <label>Card number</label>
-              <input type="text" placeholder="•••• •••• •••• ••••" disabled>
-            </div>
-            <div class="pay-field">
-              <label>Expiry</label>
-              <input type="text" placeholder="MM / YY" disabled>
-            </div>
-            <div class="pay-field">
-              <label>CVC</label>
-              <input type="text" placeholder="•••" disabled>
+              <input type="text" id="cardName" placeholder="Full name as it appears on card">
             </div>
           </div>
-          <p class="pay-note">Card details are collected by our payment partner's secure checkout, not stored on this site.</p>
-          <button class="btn-primary pay-submit" type="button">Pay securely</button>
+          <p class="pay-note">You'll enter your card number, expiry and CVC inside Paystack's secure checkout popup — Dove never sees or stores your card details. Visa, Mastercard, and Verve cards are accepted from anywhere in the world.</p>
+          <button class="btn-primary pay-submit" type="button" id="paystackCardBtn">Pay securely</button>
         </div>
 
         <!-- MPESA -->
         <div class="pay-panel" data-panel="mpesa">
           <div class="mpesa-steps">
-            <div class="mpesa-step"><span>1</span>Go to <strong>M-Pesa</strong> → <strong>Lipa na M-Pesa</strong> → <strong>Pay Bill</strong></div>
-            <div class="mpesa-step"><span>2</span>Business number: <strong class="mono">[Paybill No.]</strong></div>
-            <div class="mpesa-step"><span>3</span>Account number: enter your <strong>invoice / reference number</strong></div>
-            <div class="mpesa-step"><span>4</span>Enter amount, confirm with your M-Pesa PIN</div>
+            <div class="mpesa-step"><span>1</span>Enter your details below and tap <strong>Send M-Pesa prompt</strong></div>
+            <div class="mpesa-step"><span>2</span>Check your phone for the STK push prompt from Paystack</div>
+            <div class="mpesa-step"><span>3</span>Confirm with your M-Pesa PIN — no need to dial any menu yourself</div>
           </div>
           <div class="pay-grid" style="margin-top:22px;">
+            <div class="pay-field full">
+              <label>Email address</label>
+              <input type="email" id="mpesaEmail" placeholder="you@email.com" required>
+            </div>
             <div class="pay-field">
-              <label>Phone number</label>
-              <input type="tel" placeholder="07XX XXX XXX">
+              <label>M-Pesa phone number</label>
+              <input type="tel" id="mpesaPhone" placeholder="07XX XXX XXX">
             </div>
             <div class="pay-field">
               <label>Amount (KES)</label>
-              <input type="text" inputmode="decimal" placeholder="0.00">
+              <input type="text" inputmode="decimal" id="mpesaAmount" placeholder="0.00">
+            </div>
+            <div class="pay-field full">
+              <label>Invoice / reference number</label>
+              <input type="text" id="mpesaRef" placeholder="e.g. DOVE-INV-0231">
             </div>
           </div>
-          <p class="pay-note">Prefer not to dial the menu manually? Enter your number above and we'll send an STK push prompt to your phone.</p>
-          <button class="btn-primary pay-submit" type="button">Send M-Pesa prompt</button>
+          <p class="pay-note">Processed through Paystack — Dove doesn't see or store your M-Pesa PIN. You'll see a Paystack-linked shortcode on the prompt, not a Dove paybill number; that's expected.</p>
+          <button class="btn-primary pay-submit" type="button" id="paystackMpesaBtn">Send M-Pesa prompt</button>
         </div>
 
         <!-- PAYPAL -->
@@ -640,8 +636,8 @@
 
     <div class="pay-trust reveal">
       <div class="pay-trust-item">🔒 256-bit SSL encryption</div>
-      <div class="pay-trust-item">🛡️ PCI-DSS compliant gateway</div>
-      <div class="pay-trust-item">🌍 Accepted in 8 countries</div>
+      <div class="pay-trust-item">🛡️ Secured by Paystack, a PCI-DSS Level 1 provider</div>
+      <div class="pay-trust-item">🌍 Cards accepted worldwide</div>
     </div>
   </div>
 </section>
@@ -732,6 +728,9 @@
   </div>
 </footer>
 
+<!-- Paystack Inline checkout — official library, loaded from Paystack's own CDN.
+     Only ever pass your PUBLIC key to this library (see js/script.js). -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
 <script src="js/script.js"></script>
 
 </body>

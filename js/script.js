@@ -48,14 +48,104 @@
     });
   });
 
-  // ===== Payments: placeholder submit handlers =====
-  // NOTE: These are UI placeholders only. No payment is actually processed here.
-  // Wire each button to your real gateway's checkout call (Stripe/Flutterwave/
-  // Paystack Elements, PayPal Buttons SDK, or Safaricom Daraja STK push) on a
-  // secure backend before going live. See README.md for details.
-  document.querySelectorAll('.pay-submit').forEach(btn=>{
+  // ===== Payments: Paystack Inline checkout (Card + M-Pesa) =====
+  //
+  // IMPORTANT — replace this with your real Paystack PUBLIC key before going live.
+  // Find it in your Paystack Dashboard → Settings → API Keys & Webhooks.
+  // Only ever put the PUBLIC key here. Never put your SECRET key in any file
+  // that ships to the browser — it must stay on a private backend server.
+  const PAYSTACK_PUBLIC_KEY = "pk_test_REPLACE_WITH_YOUR_PAYSTACK_PUBLIC_KEY";
+
+  // generates a unique-enough reference if the client didn't enter an invoice number
+  function generateReference(prefix){
+    return `${prefix}-${Date.now()}-${Math.floor(Math.random()*10000)}`;
+  }
+
+  function payWithPaystack({ emailInputId, amountInputId, refInputId, currency, channels, btn }){
+    const email = document.getElementById(emailInputId)?.value.trim();
+    const amountRaw = document.getElementById(amountInputId)?.value.trim();
+    const refInput = refInputId ? document.getElementById(refInputId) : null;
+    const amount = parseFloat(amountRaw);
+
+    if(!email || !/^\S+@\S+\.\S+$/.test(email)){
+      alert('Please enter a valid email address — Paystack needs it for the payment receipt.');
+      return;
+    }
+    if(!amountRaw || isNaN(amount) || amount <= 0){
+      alert('Please enter a valid amount.');
+      return;
+    }
+    if(typeof PaystackPop === 'undefined'){
+      alert('Paystack checkout could not load — check your internet connection and try again.');
+      return;
+    }
+    if(PAYSTACK_PUBLIC_KEY.includes('REPLACE_WITH')){
+      alert('This site is not yet connected to a live Paystack account. Add your Paystack public key in js/script.js (see README.md) to accept real payments.');
+      return;
+    }
+
+    const reference = (refInput && refInput.value.trim()) || generateReference('DOVE');
+
+    const handler = PaystackPop.setup({
+      key: PAYSTACK_PUBLIC_KEY,
+      email: email,
+      amount: Math.round(amount * 100), // Paystack expects the amount in the smallest currency unit
+      currency: currency,
+      ref: reference,
+      channels: channels,
+      metadata: {
+        custom_fields: [
+          { display_name: "Invoice / Reference", variable_name: "invoice_reference", value: reference }
+        ]
+      },
+      callback: function(response){
+        // response.reference confirms the charge was authorized by Paystack.
+        // In production, verify this server-side (GET /transaction/verify/:reference
+        // with your SECRET key) before treating the payment as confirmed —
+        // never trust the client-side callback alone.
+        alert(`Payment received. Reference: ${response.reference}\n\nWe'll confirm this against our records shortly.`);
+      },
+      onClose: function(){
+        // customer closed the popup without paying — no action needed
+      }
+    });
+
+    handler.openIframe();
+  }
+
+  const paystackCardBtn = document.getElementById('paystackCardBtn');
+  if(paystackCardBtn){
+    paystackCardBtn.addEventListener('click', ()=>{
+      payWithPaystack({
+        emailInputId: 'cardEmail',
+        amountInputId: 'cardAmount',
+        refInputId: 'cardRef',
+        currency: document.getElementById('cardCurrency')?.value || 'KES',
+        channels: ['card']
+      });
+    });
+  }
+
+  const paystackMpesaBtn = document.getElementById('paystackMpesaBtn');
+  if(paystackMpesaBtn){
+    paystackMpesaBtn.addEventListener('click', ()=>{
+      payWithPaystack({
+        emailInputId: 'mpesaEmail',
+        amountInputId: 'mpesaAmount',
+        refInputId: 'mpesaRef',
+        currency: 'KES',
+        channels: ['mobile_money']
+      });
+    });
+  }
+
+  // ===== Payments: PayPal placeholder =====
+  // PayPal is a separate integration from Paystack — wire this button to the
+  // PayPal Checkout SDK (https://developer.paypal.com/sdk/js/) when you're
+  // ready to accept PayPal. See README.md for the general flow.
+  document.querySelectorAll('.pay-panel[data-panel="paypal"] .pay-submit').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      alert('This is a demo checkout button. Connect a real payment gateway (see README.md) before accepting live payments.');
+      alert('PayPal checkout isn\'t connected yet. See README.md for how to add the PayPal Checkout SDK.');
     });
   });
 
