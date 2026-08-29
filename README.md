@@ -44,11 +44,24 @@ Contact shown on the site: **support@doveassetmanagement** · **+254 753 221960*
 
 ## Wiring up real payments (important)
 
-The **Payments** section (`#payments`) on the site is currently a **front-end UI only** — the "Pay securely," "Send M-Pesa prompt," and "Continue to PayPal" buttons show a placeholder alert. No money moves yet, and no card numbers are collected or stored (the card fields are intentionally disabled). This is deliberate: card details should never be handled directly by a plain webpage, since that requires PCI‑DSS certification. Instead, plug in an established gateway that takes on that compliance for you.
+The **Payments** section (`#payments`) on the site is currently a **front-end UI only** — the "Pay securely," "Send M-Pesa prompt," and "Continue to PayPal" buttons show a placeholder alert. No money moves yet through those three methods. The **Bank Transfer** tab, however, already shows your real, live account details:
 
-**Before this goes live, replace the placeholder details in `index.html` (search for "PLACEHOLDER"):**
-- M-Pesa Paybill number (`[Paybill No.]`)
-- Bank name, account number, and SWIFT/BIC code
+- Account name: **DOVE ASSET MANAGEMENT**
+- Bank: **Cooperative Bank of Kenya**, Kangemi Branch
+- Account number: **01192763735500**
+- Bank code: **11000**
+- SWIFT/BIC: **KCOOKENA**
+
+Card details are intentionally left disabled on this page and never collected or stored here — that's deliberate, since handling raw card numbers on a plain webpage requires PCI‑DSS certification. Instead, plug in an established gateway that takes on that compliance for you.
+
+**To make Card, M-Pesa, and PayPal actually deposit into the Cooperative Bank account above, here's what has to happen — none of it can be done by editing this code alone:**
+
+1. **Open a merchant account** with a gateway (see table below) under the Dove Asset Management business.
+2. In that gateway's dashboard, **add the Cooperative Bank account (01192763735500, Kangemi Branch)** as your settlement/payout account — this is what actually routes the money there.
+3. The gateway issues you **API keys** (a public key safe for this webpage, and a secret key that must stay on a private backend server, never in `index.html` or `script.js`).
+4. I build (or you build) a small backend endpoint that uses the secret key to create real charges/checkout sessions.
+5. The buttons in `js/script.js` get pointed at that backend instead of the current placeholder `alert()`.
+6. Test everything in the gateway's **sandbox/test mode** first, then switch to live keys.
 
 **Recommended providers, matched to what you selected (cards + M‑Pesa + PayPal + bank transfer):**
 

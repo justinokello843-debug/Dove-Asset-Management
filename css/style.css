@@ -354,9 +354,16 @@ footer{background:var(--ink);color:var(--slate-light);border-top:1px solid var(-
 .paypal-box p{font-size:14px;color:var(--slate-light);line-height:1.6;margin:0 0 22px;}
 
 .bank-grid{display:flex;flex-direction:column;}
-.bank-row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line-dark);font-size:14px;color:var(--slate-light);}
+.bank-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line-dark);font-size:14px;color:var(--slate-light);gap:12px;}
 .bank-row strong{color:var(--paper);font-weight:500;}
 .bank-row:last-child{border-bottom:none;}
+.copy-btn{
+  background:none;border:1px solid var(--line-dark);color:var(--brass-light);border-radius:4px;
+  font-size:11px;padding:5px 10px;cursor:pointer;font-family:'IBM Plex Mono',monospace;
+  transition:border-color .2s,background .2s;
+}
+.copy-btn:hover{border-color:var(--brass);background:rgba(173,138,69,.08);}
+.copy-btn.copied{color:#8FBF8F;border-color:#8FBF8F;}
 
 .pay-trust{display:flex;justify-content:center;gap:32px;margin-top:36px;flex-wrap:wrap;}
 .pay-trust-item{font-size:13px;color:var(--slate-light);}

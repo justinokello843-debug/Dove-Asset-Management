@@ -48,3 +48,18 @@
       alert('This is a demo checkout button. Connect a real payment gateway (see README.md) before accepting live payments.');
     });
   });
+
+  // ===== Payments: copy bank details to clipboard =====
+  document.querySelectorAll('.copy-btn').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        const original = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(()=>{ btn.textContent = original; btn.classList.remove('copied'); }, 1600);
+      }catch(err){
+        alert('Could not copy automatically — please copy manually: ' + btn.dataset.copy);
+      }
+    });
+  });

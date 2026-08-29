@@ -510,10 +510,11 @@
 </section>
 
 <!-- ============ PAYMENTS ============ -->
-<!-- DEVELOPER NOTE: All account numbers, paybill numbers and IBAN values below are
-     PLACEHOLDERS. Replace them with your real merchant/bank details before this
-     section goes live. See README.md → "Wiring up real payments" for how to connect
-     an actual gateway (Stripe / Flutterwave / Paystack / M-Pesa Daraja / PayPal). -->
+<!-- DEVELOPER NOTE: The bank transfer details below are real (Cooperative Bank of
+     Kenya). The M-Pesa Paybill number is still a PLACEHOLDER — replace it once
+     you've registered with a mobile money gateway. See README.md → "Wiring up
+     real payments" for how to connect an actual checkout to Card / M-Pesa / PayPal
+     (Stripe / Flutterwave / Paystack / M-Pesa Daraja / PayPal). -->
 <section class="dark" id="payments">
   <div class="wrap">
     <div class="section-head reveal">
@@ -618,11 +619,12 @@
         <!-- BANK TRANSFER -->
         <div class="pay-panel" data-panel="bank">
           <div class="bank-grid">
-            <div class="bank-row"><span>Account name</span><strong>Dove Asset Management Ltd</strong></div>
-            <div class="bank-row"><span>Bank</span><strong>[Bank Name]</strong></div>
-            <div class="bank-row"><span>Branch</span><strong>Muthangari, Nairobi</strong></div>
-            <div class="bank-row"><span>Account number</span><strong class="mono">[Account No.]</strong></div>
-            <div class="bank-row"><span>SWIFT / BIC</span><strong class="mono">[SWIFT Code]</strong></div>
+            <div class="bank-row"><span>Account name</span><strong>DOVE ASSET MANAGEMENT</strong> <button class="copy-btn" data-copy="DOVE ASSET MANAGEMENT">Copy</button></div>
+            <div class="bank-row"><span>Bank</span><strong>Cooperative Bank of Kenya</strong></div>
+            <div class="bank-row"><span>Branch</span><strong>Kangemi Branch</strong></div>
+            <div class="bank-row"><span>Account number</span><strong class="mono">01192763735500</strong> <button class="copy-btn" data-copy="01192763735500">Copy</button></div>
+            <div class="bank-row"><span>Bank code</span><strong class="mono">11000</strong></div>
+            <div class="bank-row"><span>SWIFT / BIC</span><strong class="mono">KCOOKENA</strong> <button class="copy-btn" data-copy="KCOOKENA">Copy</button></div>
             <div class="bank-row"><span>Reference</span><strong>Your invoice number</strong></div>
           </div>
           <p class="pay-note">International transfers usually clear in 1–3 business days. Please email your payment slip to <a href="mailto:support@doveassetmanagement" style="color:var(--brass-light);">support@doveassetmanagement</a> so we can match it to your account.</p>
