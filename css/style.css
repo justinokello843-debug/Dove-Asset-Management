@@ -15,7 +15,8 @@
   --maxw:1280px;
 }
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{overflow-x:hidden;max-width:100vw;}
 body{
   margin:0;
   background:var(--paper);
@@ -122,8 +123,40 @@ nav.main-menu>.item:hover .mega,nav.main-menu>.item.open .mega{display:grid;}
 .btn-contact:hover{background:var(--brass-light);}
 .burger{display:none;background:none;border:none;color:var(--stone);cursor:pointer;}
 @media(max-width:1080px){
-  nav.main-menu{display:none;}
+  .nav-row{position:relative;}
+  nav.main-menu{
+    display:none;
+    position:absolute;
+    top:100%;left:0;right:0;
+    flex-direction:column;
+    gap:0;
+    background:var(--ink);
+    border-bottom:1px solid var(--line-dark);
+    box-shadow:0 16px 32px rgba(0,0,0,.3);
+    padding:6px 22px 20px;
+    max-height:calc(100vh - 78px);
+    overflow-y:auto;
+    width:100%;
+    box-sizing:border-box;
+  }
+  nav.main-menu.open{display:flex;}
+  nav.main-menu>.item{position:static;width:100%;}
+  nav.main-menu>.item>a{
+    padding:16px 4px;font-size:16px;border-bottom:1px solid var(--line-dark);border-radius:0;
+  }
+  /* mega dropdowns are desktop-only: on mobile the top-level link itself
+     scrolls to the section, so the mega panel must never render — this is
+     what was pushing the page wider than the screen. */
+  .mega{display:none !important;}
   .burger{display:block;}
+}
+@media(max-width:640px){
+  .pillars{grid-template-columns:1fr;}
+  .people-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:420px){
+  .people-grid{grid-template-columns:1fr;}
+  nav.main-menu>.item>a{font-size:15px;}
 }
 
 /* ===== Hero ===== */
@@ -247,6 +280,7 @@ section.dark .section-head p{color:var(--slate-light);}
 
 /* ===== About ===== */
 .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:64px;}
+@media(max-width:860px){.pillars{grid-template-columns:1fr 1fr;}}
 .pillar{padding:32px;border-radius:8px;background:var(--paper);border:1px solid var(--line-light);}
 .pillar .pn{font-family:'IBM Plex Mono',monospace;color:var(--brass);font-size:12px;}
 .pillar h3{font-size:23px;margin:12px 0 10px;}
@@ -284,7 +318,7 @@ section.dark .section-head p{color:var(--slate-light);}
 footer{background:var(--ink);color:var(--slate-light);border-top:1px solid var(--line-dark);padding-top:70px;}
 .footer-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:50px;border-bottom:1px solid var(--line-dark);flex-wrap:wrap;gap:24px;}
 .footer-top .newsletter{display:flex;gap:0;border:1px solid var(--line-dark);border-radius:4px;overflow:hidden;}
-.footer-top .newsletter input{background:none;border:none;padding:12px 16px;color:var(--paper);font-size:13.5px;width:220px;}
+.footer-top .newsletter input{background:none;border:none;padding:12px 16px;color:var(--paper);font-size:13.5px;width:220px;max-width:60vw;}
 .footer-top .newsletter input:focus{outline:none;}
 .footer-top .newsletter button{background:var(--brass);border:none;color:var(--ink);font-weight:600;font-size:13px;padding:0 20px;cursor:pointer;}
 .social{display:flex;gap:14px;}

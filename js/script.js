@@ -10,19 +10,29 @@
   }, {threshold:0.12});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-  // mobile burger -> simple toggle of mega menus stacked (basic fallback)
+  // mobile burger menu — class-based toggle (robust across resizes/orientation changes)
   const burger = document.querySelector('.burger');
   const mainMenu = document.querySelector('.main-menu');
+
+  function closeMobileMenu(){
+    mainMenu.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  }
+
   burger.addEventListener('click', ()=>{
-    const open = mainMenu.style.display === 'flex';
-    mainMenu.style.display = open ? 'none' : 'flex';
-    mainMenu.style.flexDirection = 'column';
-    mainMenu.style.position='absolute';
-    mainMenu.style.top='100%';
-    mainMenu.style.left='0';
-    mainMenu.style.right='0';
-    mainMenu.style.background='var(--ink)';
-    mainMenu.style.padding='10px 20px 20px';
+    const isOpen = mainMenu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  // close the menu after tapping a link, so it doesn't stay open over the section
+  mainMenu.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click', closeMobileMenu);
+  });
+
+  // if the viewport grows past the mobile breakpoint (e.g. rotating a tablet,
+  // or resizing a desktop window back up), make sure the menu isn't stuck open
+  window.addEventListener('resize', ()=>{
+    if(window.innerWidth > 1080) closeMobileMenu();
   });
 
   // ===== Payments: tab switching =====
