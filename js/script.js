@@ -24,3 +24,27 @@
     mainMenu.style.background='var(--ink)';
     mainMenu.style.padding='10px 20px 20px';
   });
+
+  // ===== Payments: tab switching =====
+  const payTabs = document.querySelectorAll('.pay-tab');
+  const payPanels = document.querySelectorAll('.pay-panel');
+  payTabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      payTabs.forEach(t=>{ t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      payPanels.forEach(p=>p.classList.remove('active'));
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected','true');
+      document.querySelector(`.pay-panel[data-panel="${tab.dataset.tab}"]`).classList.add('active');
+    });
+  });
+
+  // ===== Payments: placeholder submit handlers =====
+  // NOTE: These are UI placeholders only. No payment is actually processed here.
+  // Wire each button to your real gateway's checkout call (Stripe/Flutterwave/
+  // Paystack Elements, PayPal Buttons SDK, or Safaricom Daraja STK push) on a
+  // secure backend before going live. See README.md for details.
+  document.querySelectorAll('.pay-submit').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      alert('This is a demo checkout button. Connect a real payment gateway (see README.md) before accepting live payments.');
+    });
+  });

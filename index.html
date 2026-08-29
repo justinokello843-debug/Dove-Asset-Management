@@ -159,6 +159,7 @@
       <button class="icon-btn" aria-label="Search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </button>
+      <a href="#payments" class="btn-ghost" style="padding:10px 18px;font-size:13.5px;">Make a payment</a>
       <a href="mailto:support@doveassetmanagement" class="btn-contact" style="display:inline-flex;align-items:center;">Contact us</a>
       <button class="burger" aria-label="Menu">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -508,6 +509,136 @@
   </div>
 </section>
 
+<!-- ============ PAYMENTS ============ -->
+<!-- DEVELOPER NOTE: All account numbers, paybill numbers and IBAN values below are
+     PLACEHOLDERS. Replace them with your real merchant/bank details before this
+     section goes live. See README.md → "Wiring up real payments" for how to connect
+     an actual gateway (Stripe / Flutterwave / Paystack / M-Pesa Daraja / PayPal). -->
+<section class="dark" id="payments">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Pay Dove from anywhere, in the way that suits you.</h2>
+      <p style="color:var(--slate-light);">Settle invoices, deposits and management fees securely, wherever you're based — no branch visit required.</p>
+    </div>
+
+    <div class="pay-card reveal">
+      <div class="pay-tabs" role="tablist">
+        <button class="pay-tab active" data-tab="card" role="tab" aria-selected="true">Card</button>
+        <button class="pay-tab" data-tab="mpesa" role="tab" aria-selected="false">M-Pesa</button>
+        <button class="pay-tab" data-tab="paypal" role="tab" aria-selected="false">PayPal</button>
+        <button class="pay-tab" data-tab="bank" role="tab" aria-selected="false">Bank Transfer</button>
+      </div>
+
+      <div class="pay-panels">
+
+        <!-- CARD -->
+        <div class="pay-panel active" data-panel="card">
+          <div class="pay-grid">
+            <div class="pay-field">
+              <label>Amount</label>
+              <div class="pay-amount">
+                <select class="pay-currency">
+                  <option>USD</option>
+                  <option>KES</option>
+                  <option>EUR</option>
+                  <option>GBP</option>
+                </select>
+                <input type="text" inputmode="decimal" placeholder="0.00">
+              </div>
+            </div>
+            <div class="pay-field">
+              <label>Invoice / reference number</label>
+              <input type="text" placeholder="e.g. DOVE-INV-0231">
+            </div>
+            <div class="pay-field full">
+              <label>Cardholder name</label>
+              <input type="text" placeholder="Full name as it appears on card">
+            </div>
+            <div class="pay-field full">
+              <label>Card number</label>
+              <input type="text" placeholder="•••• •••• •••• ••••" disabled>
+            </div>
+            <div class="pay-field">
+              <label>Expiry</label>
+              <input type="text" placeholder="MM / YY" disabled>
+            </div>
+            <div class="pay-field">
+              <label>CVC</label>
+              <input type="text" placeholder="•••" disabled>
+            </div>
+          </div>
+          <p class="pay-note">Card details are collected by our payment partner's secure checkout, not stored on this site.</p>
+          <button class="btn-primary pay-submit" type="button">Pay securely</button>
+        </div>
+
+        <!-- MPESA -->
+        <div class="pay-panel" data-panel="mpesa">
+          <div class="mpesa-steps">
+            <div class="mpesa-step"><span>1</span>Go to <strong>M-Pesa</strong> → <strong>Lipa na M-Pesa</strong> → <strong>Pay Bill</strong></div>
+            <div class="mpesa-step"><span>2</span>Business number: <strong class="mono">[Paybill No.]</strong></div>
+            <div class="mpesa-step"><span>3</span>Account number: enter your <strong>invoice / reference number</strong></div>
+            <div class="mpesa-step"><span>4</span>Enter amount, confirm with your M-Pesa PIN</div>
+          </div>
+          <div class="pay-grid" style="margin-top:22px;">
+            <div class="pay-field">
+              <label>Phone number</label>
+              <input type="tel" placeholder="07XX XXX XXX">
+            </div>
+            <div class="pay-field">
+              <label>Amount (KES)</label>
+              <input type="text" inputmode="decimal" placeholder="0.00">
+            </div>
+          </div>
+          <p class="pay-note">Prefer not to dial the menu manually? Enter your number above and we'll send an STK push prompt to your phone.</p>
+          <button class="btn-primary pay-submit" type="button">Send M-Pesa prompt</button>
+        </div>
+
+        <!-- PAYPAL -->
+        <div class="pay-panel" data-panel="paypal">
+          <div class="paypal-box">
+            <div class="paypal-mark">PayPal</div>
+            <p>Pay from your PayPal balance, linked bank account, or card — ideal for clients outside East Africa. You'll be redirected to PayPal to complete payment securely, then returned to Dove.</p>
+            <div class="pay-grid">
+              <div class="pay-field">
+                <label>Amount</label>
+                <div class="pay-amount">
+                  <select class="pay-currency"><option>USD</option><option>EUR</option><option>GBP</option></select>
+                  <input type="text" inputmode="decimal" placeholder="0.00">
+                </div>
+              </div>
+              <div class="pay-field">
+                <label>Invoice / reference number</label>
+                <input type="text" placeholder="e.g. DOVE-INV-0231">
+              </div>
+            </div>
+            <button class="btn-primary pay-submit" type="button">Continue to PayPal</button>
+          </div>
+        </div>
+
+        <!-- BANK TRANSFER -->
+        <div class="pay-panel" data-panel="bank">
+          <div class="bank-grid">
+            <div class="bank-row"><span>Account name</span><strong>Dove Asset Management Ltd</strong></div>
+            <div class="bank-row"><span>Bank</span><strong>[Bank Name]</strong></div>
+            <div class="bank-row"><span>Branch</span><strong>Muthangari, Nairobi</strong></div>
+            <div class="bank-row"><span>Account number</span><strong class="mono">[Account No.]</strong></div>
+            <div class="bank-row"><span>SWIFT / BIC</span><strong class="mono">[SWIFT Code]</strong></div>
+            <div class="bank-row"><span>Reference</span><strong>Your invoice number</strong></div>
+          </div>
+          <p class="pay-note">International transfers usually clear in 1–3 business days. Please email your payment slip to <a href="mailto:support@doveassetmanagement" style="color:var(--brass-light);">support@doveassetmanagement</a> so we can match it to your account.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="pay-trust reveal">
+      <div class="pay-trust-item">🔒 256-bit SSL encryption</div>
+      <div class="pay-trust-item">🛡️ PCI-DSS compliant gateway</div>
+      <div class="pay-trust-item">🌍 Accepted in 8 countries</div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ CTA ============ -->
 <div class="cta-band">
   <div class="wrap">
@@ -549,6 +680,7 @@
           <li><a href="#services">Hybrid workspace solutions</a></li>
           <li><a href="#industries">Sustainable buildings</a></li>
           <li><a href="#technology">AI for commercial real estate</a></li>
+          <li><a href="#payments">Make a payment</a></li>
           <li><a href="mailto:support@doveassetmanagement">Contact us</a></li>
           <li><a href="tel:+254753221960">+254 753 221960</a></li>
         </ul>
