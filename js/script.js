@@ -54,7 +54,7 @@
   // Find it in your Paystack Dashboard → Settings → API Keys & Webhooks.
   // Only ever put the PUBLIC key here. Never put your SECRET key in any file
   // that ships to the browser — it must stay on a private backend server.
-  const PAYSTACK_PUBLIC_KEY = "pk_test_REPLACE_WITH_YOUR_PAYSTACK_PUBLIC_KEY";
+  const PAYSTACK_PUBLIC_KEY = "pk_test_152dff0c74a9cadc3d511b25603e3492a723adad";
 
   // generates a unique-enough reference if the client didn't enter an invoice number
   function generateReference(prefix){
