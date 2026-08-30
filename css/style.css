@@ -404,7 +404,20 @@ footer{background:var(--ink);color:var(--slate-light);border-top:1px solid var(-
 .pay-amount input{border-radius:0 5px 5px 0;flex:1;}
 
 .pay-note{font-size:12.5px;color:var(--slate-light);line-height:1.55;margin:18px 0 22px;}
-.pay-submit{width:100%;text-align:center;border:none;cursor:pointer;font-size:15px;}
+.pay-submit{width:100%;text-align:center;border:none;cursor:pointer;font-size:15px;position:relative;transition:opacity .2s;}
+.pay-submit:disabled{cursor:wait;opacity:.85;}
+.pay-submit.is-loading{padding-left:40px;}
+.pay-submit.is-loading::before{
+  content:"";position:absolute;left:16px;top:50%;
+  width:16px;height:16px;margin-top:-8px;
+  border:2px solid rgba(22,27,38,.3);border-top-color:var(--ink);
+  border-radius:50%;animation:pay-spin .7s linear infinite;
+}
+@keyframes pay-spin{to{transform:rotate(360deg);}}
+.pay-secured-by{
+  text-align:center;font-size:12px;color:var(--slate-light);margin-top:12px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
 
 .mpesa-steps{display:flex;flex-direction:column;gap:12px;}
 .mpesa-step{display:flex;gap:14px;align-items:flex-start;font-size:14px;color:var(--stone);line-height:1.5;}

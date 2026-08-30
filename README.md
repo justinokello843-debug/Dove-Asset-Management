@@ -72,6 +72,8 @@ The checkout code is already in place (`js/script.js`, using Paystack's official
 
 Card details are never collected or stored on this website — Paystack's popup collects them directly inside its own secure iframe, which is what keeps this site out of PCI-DSS scope. Paystack itself is PCI DSS Level 1 certified, the highest tier available.
 
+**Branding the actual Paystack popup:** the checkout iframe's look (colors, layout) is controlled by Paystack, not this website's code — but you can add the Dove logo so it appears inside the popup itself. In your Paystack Dashboard, go to **Settings → Preferences**, scroll to the bottom, and upload your business logo (under 1MB). Once saved, it shows automatically on every checkout, live or test.
+
 ### PayPal (not yet connected)
 
 The PayPal tab still shows a placeholder alert. To connect it, add the [PayPal Checkout SDK](https://developer.paypal.com/sdk/js/) and, like Paystack, verify completed orders server-side before treating them as paid — see PayPal's [Standard Checkout integration guide](https://developer.paypal.com/docs/checkout/standard/).

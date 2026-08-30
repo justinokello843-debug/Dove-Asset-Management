@@ -86,6 +86,23 @@
 
     const reference = (refInput && refInput.value.trim()) || generateReference('DOVE');
 
+    // brief loading state so the click doesn't feel like it went nowhere while
+    // the Paystack iframe spins up
+    const originalLabel = btn ? btn.textContent : null;
+    if(btn){
+      btn.disabled = true;
+      btn.classList.add('is-loading');
+      btn.textContent = 'Opening secure checkout…';
+    }
+
+    function resetButton(){
+      if(btn){
+        btn.disabled = false;
+        btn.classList.remove('is-loading');
+        btn.textContent = originalLabel;
+      }
+    }
+
     const handler = PaystackPop.setup({
       key: PAYSTACK_PUBLIC_KEY,
       email: email,
@@ -103,14 +120,18 @@
         // In production, verify this server-side (GET /transaction/verify/:reference
         // with your SECRET key) before treating the payment as confirmed —
         // never trust the client-side callback alone.
+        resetButton();
         alert(`Payment received. Reference: ${response.reference}\n\nWe'll confirm this against our records shortly.`);
       },
       onClose: function(){
-        // customer closed the popup without paying — no action needed
+        // customer closed the popup without paying
+        resetButton();
       }
     });
 
-    handler.openIframe();
+    // give the button a brief moment to visibly change before the iframe opens,
+    // so the click feels acknowledged rather than instant/jarring
+    setTimeout(()=>{ handler.openIframe(); }, 150);
   }
 
   const paystackCardBtn = document.getElementById('paystackCardBtn');
@@ -121,7 +142,8 @@
         amountInputId: 'cardAmount',
         refInputId: 'cardRef',
         currency: document.getElementById('cardCurrency')?.value || 'KES',
-        channels: ['card']
+        channels: ['card'],
+        btn: paystackCardBtn
       });
     });
   }
@@ -134,7 +156,8 @@
         amountInputId: 'mpesaAmount',
         refInputId: 'mpesaRef',
         currency: 'KES',
-        channels: ['mobile_money']
+        channels: ['mobile_money'],
+        btn: paystackMpesaBtn
       });
     });
   }
