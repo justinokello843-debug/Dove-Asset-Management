@@ -450,7 +450,7 @@ footer{background:var(--ink);color:var(--slate-light);border-top:1px solid var(-
 
 @media(max-width:600px){
   .pay-tabs{flex-wrap:wrap;}
-  .pay-tab{flex:1 1 50%;font-size:13px;padding:14px 8px;}
+  .pay-tab{flex:1;font-size:12.5px;padding:14px 6px;}
   .pay-grid{grid-template-columns:1fr;}
   .pay-panels{padding:24px 20px;}
 }

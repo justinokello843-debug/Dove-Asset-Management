@@ -515,10 +515,10 @@
 </section>
 
 <!-- ============ PAYMENTS ============ -->
-<!-- DEVELOPER NOTE: Bank transfer details below are real (Cooperative Bank of
-     Kenya). Card and M-Pesa are wired to Paystack's Inline checkout in
-     js/script.js — replace PAYSTACK_PUBLIC_KEY there with your real key.
-     PayPal is still a placeholder. See README.md → "Wiring up real payments". -->
+<!-- DEVELOPER NOTE: Bank Transfer tab was removed at the client's request
+     (Sept 2026) for privacy reasons. Card and M-Pesa are live via Paystack's
+     Inline checkout in js/script.js (PAYSTACK_PUBLIC_KEY is set to the live
+     key). PayPal is still a placeholder. See README.md for details. -->
 <section class="dark" id="payments">
   <div class="wrap">
     <div class="section-head reveal">
@@ -531,7 +531,6 @@
         <button class="pay-tab active" data-tab="card" role="tab" aria-selected="true">Card</button>
         <button class="pay-tab" data-tab="mpesa" role="tab" aria-selected="false">M-Pesa</button>
         <button class="pay-tab" data-tab="paypal" role="tab" aria-selected="false">PayPal</button>
-        <button class="pay-tab" data-tab="bank" role="tab" aria-selected="false">Bank Transfer</button>
       </div>
 
       <div class="pay-panels">
@@ -619,26 +618,10 @@
           </div>
         </div>
 
-        <!-- BANK TRANSFER -->
-        <div class="pay-panel" data-panel="bank">
-          <div class="bank-grid">
-            <div class="bank-row"><span>Account name</span><strong>DOVE ASSET MANAGEMENT</strong> <button class="copy-btn" data-copy="DOVE ASSET MANAGEMENT">Copy</button></div>
-            <div class="bank-row"><span>Bank</span><strong>Cooperative Bank of Kenya</strong></div>
-            <div class="bank-row"><span>Branch</span><strong>Kangemi Branch</strong></div>
-            <div class="bank-row"><span>Account number</span><strong class="mono">01192763735500</strong> <button class="copy-btn" data-copy="01192763735500">Copy</button></div>
-            <div class="bank-row"><span>Bank code</span><strong class="mono">11000</strong></div>
-            <div class="bank-row"><span>SWIFT / BIC</span><strong class="mono">KCOOKENA</strong> <button class="copy-btn" data-copy="KCOOKENA">Copy</button></div>
-            <div class="bank-row"><span>Reference</span><strong>Your invoice number</strong></div>
-          </div>
-          <p class="pay-note">International transfers usually clear in 1–3 business days. Please email your payment slip to <a href="mailto:support@doveassetmanagement" style="color:var(--brass-light);">support@doveassetmanagement</a> so we can match it to your account.</p>
-        </div>
-
       </div>
     </div>
 
     <div class="pay-trust reveal">
-      <div class="pay-trust-item">🔒 256-bit SSL encryption</div>
-      <div class="pay-trust-item">🛡️ Secured by Paystack, a PCI-DSS Level 1 provider</div>
       <div class="pay-trust-item">🌍 Cards accepted worldwide</div>
     </div>
   </div>

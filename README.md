@@ -44,21 +44,16 @@ Contact shown on the site: **support@doveassetmanagement** · **+254 753 221960*
 
 ## Wiring up real payments (important)
 
-The **Payments** section (`#payments`) now has a real, working integration with **Paystack** for the **Card** and **M-Pesa** tabs — Paystack's checkout popup handles both, since Paystack in Kenya supports Visa/Mastercard/Verve cards worldwide and M-Pesa STK Push from one account. The **Bank Transfer** tab shows your live account details, and the **PayPal** tab is still a placeholder (see below).
+The **Payments** section (`#payments`) has a real, working integration with **Paystack** for the **Card** and **M-Pesa** tabs — Paystack's checkout popup handles both, since Paystack in Kenya supports Visa/Mastercard/Verve cards worldwide and M-Pesa STK Push from one account. The **PayPal** tab is still a placeholder (see below).
 
-**Bank details currently shown on the site:**
-- Account name: **DOVE ASSET MANAGEMENT**
-- Bank: **Cooperative Bank of Kenya**, Kangemi Branch
-- Account number: **01192763735500**
-- Bank code: **11000**
-- SWIFT/BIC: **KCOOKENA**
+The site only shows three payment methods to visitors: **Card, M-Pesa, and PayPal.** A Bank Transfer tab with the account details displayed publicly was removed at the client's request, since publishing full bank account details openly on a website isn't necessary once card and mobile money channels are live, and reduces unnecessary exposure of account details. The settlement bank account is still configured on the Paystack side (Dashboard → Settings → Accounts) — that hasn't changed, it's simply no longer displayed on the public website.
 
 ### Making Card & M-Pesa go live with Paystack
 
-**Status: LIVE.** Dove Asset Management's Paystack business is approved, and `js/script.js` is currently using the **live public key** (`pk_live_...`). Real card and M-Pesa payments now go through and settle into the Cooperative Bank account (T+2 business days). The steps below are kept for reference/history.
+**Status: LIVE.** Dove Asset Management's Paystack business is approved, and `js/script.js` is currently using the **live public key** (`pk_live_...`). Real card and M-Pesa payments now go through and settle into the linked bank account (T+2 business days). The steps below are kept for reference/history.
 
 1. **Create a Paystack account** at [paystack.com](https://paystack.com) for Dove Asset Management, and complete their business verification (KYC).
-2. In your Paystack Dashboard, add the **Cooperative Bank account (01192763735500, Kangemi Branch)** as your settlement account — this is what routes collected payments there. Typically it takes about 3 working days after a customer pays for funds to reach your account.
+2. In your Paystack Dashboard, add your bank account as your settlement account — this is what routes collected payments there. Typically it takes about 3 working days after a customer pays for funds to reach your account.
 3. If you want to accept cards from **outside Kenya**, request **"Accept international payments"** under Dashboard → Preferences — this isn't automatic.
 4. Go to Dashboard → Settings → **API Keys & Webhooks** and copy your **Public Key** (starts with `pk_test_...` in test mode, `pk_live_...` once you switch to live).
 5. Open `js/script.js`, find this line near the top of the Payments section:
