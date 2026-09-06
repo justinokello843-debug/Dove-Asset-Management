@@ -55,7 +55,7 @@ The **Payments** section (`#payments`) now has a real, working integration with 
 
 ### Making Card & M-Pesa go live with Paystack
 
-The checkout code is already in place (`js/script.js`, using Paystack's official Inline library loaded in `index.html`). It currently uses a placeholder public key, so nothing charges yet. To activate it:
+**Status: LIVE.** Dove Asset Management's Paystack business is approved, and `js/script.js` is currently using the **live public key** (`pk_live_...`). Real card and M-Pesa payments now go through and settle into the Cooperative Bank account (T+2 business days). The steps below are kept for reference/history.
 
 1. **Create a Paystack account** at [paystack.com](https://paystack.com) for Dove Asset Management, and complete their business verification (KYC).
 2. In your Paystack Dashboard, add the **Cooperative Bank account (01192763735500, Kangemi Branch)** as your settlement account — this is what routes collected payments there. Typically it takes about 3 working days after a customer pays for funds to reach your account.
